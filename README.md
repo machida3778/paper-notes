@@ -10,6 +10,8 @@ My main research interests are:
 - 3D Scene Reconstruction
 - Computer Graphics
 
+Started on July 5, 2026.
+
 ## Paper List
 ### [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
 - ICLR 2023
@@ -35,4 +37,14 @@ My main research interests are:
 - Strength: 結果が良好であり、壁や地面も生成の対象に含まれる。屋内・屋外の両方に対応。
 - Weakness: 既存手法を組み合わせたシステム論文であり、技術的新規性に乏しい。関連研究であるCASTを引用していない（SDFベースの物理整合性の補正はCASTが先に提案している）。Objaverseデータセットからオブジェクトを取ってきているため、open-vocabularyではないため、多様性に欠ける。
 
-### [Editable Scene Simulation for Autonomous Driving via Collaborative LLM-Agents]()
+### [Editable Scene Simulation for Autonomous Driving via Collaborative LLM-Agents](https://arxiv.org/abs/2402.05746)
+- CVPR 2024
+- Summary: LLMエージェントを用いて、入力ドライブ動画を入力テキストに基づいて編集する手法を提案。
+- Strength: マルチカメラ対応、編集可能、アセットの外挿、言語による編集、Open-Sourceの全てを満たす初めての手法。高品質で有用な編集手法に思える。
+- Weakness: 事前定義されたエージェント(e.g. オブジェクト削除エージェント)を利用するため、例えば天候の変更などできず、編集の汎用性は低い。
+
+### [Efficient Video Super-Resolution for Real-time Rendering with Decoupled G-buffer Guidance](https://openaccess.thecvf.com/content/CVPR2025/papers/Zheng_Efficient_Video_Super-Resolution_for_Real-time_Rendering_with_Decoupled_G-buffer_Guidance_CVPR_2025_paper.pdf)
+- CVPR 2026
+- Summary: G-bufferの各要素を有効に使用するリアルタイムレンダリング向けの動画超解像手法を提案。
+- Strength: 技術的新規性に富んでいて、motion vectorで前フレームをワープすると遮蔽部分で整合性が取れなくなるところを、Depthで補助するのが面白いと感じた。またBRDFとNormalは高周波成分のヒントとして活用していて、G-bufferの各要素に明確な役割を分担させている点は、説明可能性が高い。
+- Weakness: 60fpsは16msなので、パラメータ32版だとまだレイテンシが高い。
