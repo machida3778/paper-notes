@@ -48,3 +48,9 @@ Started on July 5, 2026.
 - Summary: G-bufferの各要素を有効に使用するリアルタイムレンダリング向けの動画超解像手法を提案。
 - Strength: 技術的新規性に富んでいて、motion vectorで前フレームをワープすると遮蔽部分で整合性が取れなくなるところを、Depthで補助するのが面白いと感じた。またBRDFとNormalは高周波成分のヒントとして活用していて、G-bufferの各要素に明確な役割を分担させている点は、説明可能性が高い。
 - Weakness: 60fpsは16msなので、パラメータ32版だとまだレイテンシが高い。
+
+### [VistaDream: Sampling multiview consistent images for single-view scene reconstruction](https://arxiv.org/abs/2410.16892)
+- ICCV 2025
+- Summary: 単一視点画像からの3DGS再構成手法。最初に周囲を外挿し、その後にwarp-and-inpaintを適用。その後、逆拡散過程で3DGSの学習を含めたサンプリングを行い、多視点一貫性を保持。
+- Strength: 手法が直感的で美しい。特に逆拡散過程で3DGSを統合したサンプリングを行うのは合理的。
+- Weakness: 逆拡散過程の各ステップで3DGSの更新を行うため、計算コストが高い。
