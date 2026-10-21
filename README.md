@@ -72,3 +72,18 @@ Started on July 5, 2026.
 - Summary: 明示的3D情報を使用せずに多視点拡散モデルによるNVSを実現するSEVAを提案。
 - Strength: 大きな視点変化と小さな視点変化の両方に対応できるような学習方法、および長軌道NVSのための2パスサンプリングにより、明示的3D情報をせずとも高品質なNVSが実現できることを示している。
 - Weakness: 技術的新規性はそこまで大きくない。既存手法の組み合わせにより強化されたモデルアーキテクチャと、学習方法およびサンプリング方法を工夫したら、上手くいくことを示したに過ぎない。また、もちろん明示的に3D情報を使用していないので、幾何的な破綻もしやすい（ただ、私が試した中ではかなり高品質だった）。
+
+### [ROFORMER: ENHANCED TRANSFORMER WITH ROTARY POSITION EMBEDDING](https://arxiv.org/pdf/2104.09864)
+- Neurocomputing, Volume 568
+- Summary: 従来の位置埋め込みはトークン埋め込みに位置ベクトルを加算する方式だった。これに対しRoPEは、Attention内のクエリとキーを、各トークンの絶対位置に比例した角度だけ回転させる。すると内積には相対位置だけが残る、という乗算型の手法である。
+- Strength: 相対位置を自然に組み込めて、線形注意とも両立する。事前学習の収束が速く、長文タスクで性能が向上した。
+- Weakness: 収束が速い理由と、長文に強い理由を理論的に説明できていない。また、下流タスク（GLUE）での改善は限定的で、比較条件にも疑問が残る。
+
+### [Scaling Rectified Flow Transformers for High-Resolution Image Synthesis](https://arxiv.org/pdf/2403.03206)
+- ICML 2024
+- Summary: 
+Summary: Rectified Flowの学習時のタイムステップ分布を中間重視に変え、さらにテキストと画像で別々の重みを持ちつつattentionのみを結合して双方向に情報を流すMM-DiTを提案。
+Strength: 61通りの定式化を統一的な枠組みで公平に比較した大規模な検証が丁寧。logit-normalという単純な変更で、サンプリングステップ数や指標によらず安定して性能が向上し、少ないステップでの劣化も小さい。
+Weakness: MM-DiTはモダリティごとの重みにより、パラメータ数と計算コストが増える。
+
+
