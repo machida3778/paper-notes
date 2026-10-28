@@ -86,4 +86,45 @@ Summary: Rectified Flowの学習時のタイムステップ分布を中間重視
 Strength: 61通りの定式化を統一的な枠組みで公平に比較した大規模な検証が丁寧。logit-normalという単純な変更で、サンプリングステップ数や指標によらず安定して性能が向上し、少ないステップでの劣化も小さい。
 Weakness: MM-DiTはモダリティごとの重みにより、パラメータ数と計算コストが増える。
 
+### [FLUX.1 Kontext: Flow Matching for In-Context Image Generation and Editing in Latent Space](https://arxiv.org/pdf/2506.15742)
+- arXiv 2025
+- Summary: 画像生成と画像編集を単一モデルで扱うFLUX.1 Kontextを提案。参照画像の潜在トークンを生成対象のトークン列に連結し、3D RoPEの時間軸にオフセットを与えて区別するだけで、通常のflow matching損失のまま編集を学習
+- Strength: 手法がシンプル。蒸留による少ステップ化で計算コストを下げ、競合より最大1桁高速なため、対話的な反復編集に実用的。複数回の編集でもキャラクターの同一性が崩れにくい。
+- Weakness: 技術的新規性は小さい。土台はMMDiT系の既存アーキテクチャ（FLUX.1）で、画像トークンを並べて文脈にする発想もOmniGenやIn-context LoRAなどに見られる。
+
+### [Qwen-Image Technical Report](https://arxiv.org/pdf/2508.02324)
+- arXiv 2025
+- Summary: 複雑なテキストレンダリング（特に中国語）と一貫性のある画像編集を実現する画像生成基盤モデル。Qwen2.5-VL、VAE、MMDiTで構成され、T2I・TI2I・I2Iのマルチタスク学習で意味と見た目の一貫性を両立。
+- Strength: データ作成から学習戦略まで細部にこだわっており、それが品質に寄与している。
+- Weakness: MSRoPEなど一部を除き、MMDiTやQwen2.5-VLなど既存技術の組み合わせであり、技術的新規性は薄い（技術レポートのため）。
+
+### [InfiniteYou: Flexible Photo Recrafting While Preserving Your Identity](https://arxiv.org/abs/2503.16418)
+- ICCV 2025 (Highlight)
+- Summary: 1枚の顔画像とテキストから、本人性を保った人物画像を生成するFLUX向けの手法。ControlNetを一般化したInfuseNetが顔特徴を残差接続でDiTに注入
+- Strength: IPA方式の副作用を指摘し、ControlNet型の残差注入というシンプルな設計で回避。ベースモデルを固定するため既存プラグインと併用しやすい。プラグインの効果を本体に焼き込む多段階学習戦略も参考になる。
+- Weakness: InfuseNetは本体の約1/4のDiTブロックを持つため、IPAやPuLID-FLUXのような軽量アダプタと比べて計算コストが高い。
+
+### [Human Mesh Modeling for Anny Body](https://arxiv.org/abs/2511.03589)
+- ECCV 2026
+- Sumamry: スキャン不要で解釈可能なパラメトリック3D人体モデルAnnyを提案。年齢・性別・体重などの表現型パラメータで、乳児から高齢者までを単一モデルで表現
+- Strength: 各パラメータが年齢・体重などの意味を持ち、直接制御できるため解釈しやすい。3Dスキャンではなくアーティスト作の人体モデルを用いることで、スキャン収集のコストとプライバシーの問題を回避
+- Weakness: 基盤となるMakeHumanの表現型はアーティストのステレオタイプを含むため、Annyも依然としてそれを引き継ぐ
+
+### [ContextDrag: Precise Drag-Based Image Editing via Context-Preserving Token Injection and Position-Aligned Attention](https://arxiv.org/pdf/2512.08477)
+- arXiv 2026
+- Summary: 点の指定で画像中の物体を移動・変形させるドラッグ編集を、FLUX-Kontextなどのモデル上で、インバージョンやファインチューニングなしに実現する手法。VAEでエンコードした参照画像のトークンをドラッグ先へ注入し(CTI)、そのRoPE位置を移動先に付け替え(PRE)、移動先で衝突する参照トークンをマスクする(OAM)。
+- Strength: インバージョンを使わずクリーンなVAE特徴を注入するため、テクスチャを保ったまま正確に編集できる。学習の必要が無い。
+- Weakness: 本質的には、潜在空間上でトークンとそのRoPE位置をドラッグ先へ移動させる「潜在空間でのwarp-and-inpaint」である。ピクセル空間でワープした画像を参照としてFLUX-Kontextに入力するという単純なベースラインとの比較がなく、トークン空間で操作することの優位性が十分に示されていない。
+
+### [RoPEMover: Depth-Aware Object Relocation via Positional Embeddings](https://arxiv.org/pdf/2606.27332)
+- arXiv 2026
+- Summary: 単一画像中の物体を、ドラッグと拡大縮小の指定に基づいて移動させる手法。物体トークンのRoPE位置を移動先へワープし、さらに移動後の深度マップを合成してRoPEの未使用の時間軸に注入することで、前後関係を考慮した移動を実現
+- Strength: 事前学習済みDiTの位置表現を書き換えるという単純な仕組みで、正確な位置制御と、影や反射まで含めた物理的に一貫した編集を両立
+- Weakness: 深度を時間軸に注入する効果の検証が弱い
+
+### [Untwisting RoPE: Frequency Control for Shared Attention in DiTs](https://arxiv.org/abs/2602.05013)
+- arXiv 2026
+- Summary: DiTにおける共有アテンションで生じる参照コピーの原因を、RoPEの高周波成分が空間的に同じ位置の参照トークンへアテンションを偏らせることにあると分析。これに基づき、参照画像のキーのRoPEチャンクごとに倍率を掛け、高周波を弱めて低周波を強める周波数考慮型の変調を提案し、内容をコピーせずにスタイルを転写
+- Strength: RoPEの周波数構造という観点からコピーの原因を理論と可視化で説明しており、手法もその分析から自然に導かれていて納得感がある。学習不要
+- Weakness: 評価がFlux系のモデルに限られており、他のRoPEベースのDiTや動画生成モデルでの有効性は不明
 
